@@ -1,22 +1,50 @@
 import { Button, FormControl, Input, InputLabel } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
+import db from "./firebase";
 import Message from "./Message";
-
+import firebase from "firebase";
 function App() {
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([
+    // { username: "henry", text: "hello" },
+    // { username: "Hary", text: "hi there" },
+  ]);
+  const [username, setUsername] = useState("");
+  //listener
+  useEffect(()=> {
+     // run one when the app componet load 
+      db.collection('messages').orderBy('timestamp', 'desc').onSnapshot(snapshot  => {
+        setMessages(snapshot.docs.map(doc => doc.data()))
+      })
+  },[])
+
+  useEffect(() => {
+    // run code here
+    // if its blank insiude [] , this code runs ONce when the app component load
+    //  const name = prompt('please enter your name');
+    setUsername(prompt("please enter your name"));
+
+  }, []); // conditions
+
   const sendMessage = (event) => {
     // all the logic to send the code here
     event.preventDefault();
-    setMessages([...messages, input]);
+
+    db.collection('messages').add({
+      message: input,
+      username:username,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    })
+
+    // setMessages([...messages, {username:username, text:input}]);
     setInput("");
-    console.log(messages);
   };
 
   return (
     <div className="App">
       <h1>Hello Programmer</h1>
+      <h2>Welcome {username}</h2>
       <form>
         <FormControl>
           <InputLabel>Enter a message</InputLabel>
@@ -40,8 +68,7 @@ function App() {
 
       {/* message themselves */}
       {messages.map((message) => (
-        <Message text={message}/>
-        
+        <Message username={username} message={message} />
       ))}
     </div>
   );
