@@ -1,31 +1,47 @@
 .message{
-    padding:10px;
+    
+    padding:5px;
     margin: 10px;
     width: fit-content;
+    text-align: left;
+}
+
+.message__user{
+    /* flex-direction: row-reverse; */
+    text-align: right !important;
+    margin-left: auto;
     
 }
-.message__user{
-    margin-left: auto;
-    text-align: left !important;
-}
+
 .message__userCard{
     background-color: #0b81ff !important;
+    border-radius: 2rem !important;
     color: #e9e9eb !important;
 }
 
 .message__guestCard{
     background-color: #e9e9eb !important;
+    border-radius: 2rem !important;
 } 
+
 .message__timeInfo{
     color:black !important;
 }
-.messsage__display{
- display: inline !important;
+.message__display{
+ display: flex !important;
  flex-direction: row !important;
+ /* background-color: red; */
+}
+.message__displayUser{
+    align-self: flex-end;
+    flex-direction: row-reverse !important;
+    /* background-color: orange !important; */
 }
 .message__avatar{
     width: 40px;
     height: 40px;
     border-radius: 50%;
     margin: 2px 5px;
+
+   
 }

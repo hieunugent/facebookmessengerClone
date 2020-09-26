@@ -1,28 +1,75 @@
 .app {
   text-align: center;
-}
-.app__header{
-  background-color: white;
   display: flex;
-   align-items: center;
-   margin-left: 5px;
-   margin-right: 5px;
+  flex-direction: column;
+
 }
-.app__header > h1 {
-  color: #4267B2;
+.app__login {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  
+  height: 100vh;
+}
+.app__landing{
+  display: flex;
+  flex-direction: row;
+ 
+}
+.wallpaper{
   flex: 1;
-}
-.app__SignOutBtn{
-  border-radius: 1rem !important;
+  max-width: 80%;
 }
 .app__signInform{
   margin-top: 5rem;
+  margin-right: 30px ;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: center ;
   align-items: center;
+  flex:0;
+}
+
+.app__section1{
+  position: sticky;
+  top:0;
+  z-index: 1;
+  flex: 0;
+}
+.app__section2{
+  height:  80vh !important;
+  margin: 0 0 10vh !important;
+  overflow-y:  scroll !important;
+  padding: 10px;
+  display: flex !important;
+  flex-direction: column !important;
 
 }
+main::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+.app__header{
+   background-color:  #4267B2;
+   display: flex;
+   align-items: center;
+   margin-left: 5px;
+   margin-right: 5px;
+
+}
+.app__header > h1 {
+  color: white;
+  flex: 1;
+}
+
+
+
+
+
+.app__SignOutBtn{
+  border-radius: 1rem !important;
+}
+
 .app__SignInBtn{
   display: flex;
   width: 300px;
@@ -38,7 +85,27 @@
   margin-bottom: 10px;
   
 }
+ .app__SignInBtnFace{
+  display: flex;
+  width: 300px;
+  padding: 5px;
+ justify-content: space-evenly;
+  align-items: center;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: medium;
+  font-style: normal;
+  color:#4267B2;
+  border: 1px solid #4267B2;
+  border-radius: 1rem;
+  margin-bottom: 10px;
+  
+}
 .app__SignInBtn > img{
+  width: 40px;
+  height: 40px;
+  margin: 10px;
+}
+.app__SignInBtnFace > img{
   width: 40px;
   height: 40px;
   margin: 10px;
@@ -47,14 +114,14 @@
   flex: 0;
 }
 .app__form{
- padding: 20px;
+height: 10vh;
+ padding: 10px;
  position: fixed;
  bottom: 0;
  z-index: 1;
  background-color: #e9e9eb;
- width: 94%;
- margin: 20px;
- 
+ width: 95%;
+ margin: 0 20px 5px;
  
 }
 .app__formControl{
@@ -67,7 +134,8 @@
 .app__iconButton{
   flex:0;
 }
-.app__Message{
-  background-color: aqua !important;
-  margin-bottom: 200px;
-}
+
+
+/* main::-webkit-scrollbar {
+  width: 0.25rem;
+} */

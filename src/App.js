@@ -4,7 +4,7 @@ import firebase from "firebase";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/analytics";
-import { Button } from "@material-ui/core";
+import { Button, Link } from "@material-ui/core";
 import { FormControl, Input } from "@material-ui/core";
 import "./App.css";
 import db from "./firebase";
@@ -17,6 +17,7 @@ import "./Message.css";
 import FlipMove from "react-flip-move";
 import SendIcon from "@material-ui/icons/Send";
 import { IconButton } from "@material-ui/core";
+import wallpaper from "./wallpaper.png";
 import EmailIcon from "@material-ui/icons/Email";
 // React fireabse hook declearation
 const auth = firebase.auth();
@@ -33,36 +34,51 @@ function SignIn() {
     auth.signInWithPopup(provider);
   }
   return (
-    <div className="app">
-      <header className="app__header">
-        <img
-          className="app__logo"
-          src="https://facebookbrand.com/wp-content/uploads/2019/10/Messenger_Logo_Color_RGB.png?w=100&h=100"
-          alt=""
-        />{" "}
-        <h1>FaceBook Room Clone Messenger</h1>
-        <SignOut />
-      </header>
-      <div className="app__signInform">
-        <button className="app__SignInBtn" onClick={signInWithFaceBook}>
-          {" "}
-          <h3> Log in with FaceBook</h3>
+    <>
+      <div className="app__login">
+        <header className="app__header">
           <img
-            src="https://w7.pngwing.com/pngs/933/615/png-transparent-social-media-facebook-computer-icons-logo-facebook-blue-text-rectangle.png"
+            className="app__logo"
+            src="https://facebookbrand.com/wp-content/uploads/2019/10/Messenger_Logo_Color_RGB.png?w=100&h=100"
             alt=""
-          />
-        </button>
-        <button className="app__SignInBtn" onClick={signInWithGoogle}>
-          {" "}
-          <h3> Sign in with Google</h3>
-          <img
-            src="https://www.schemecolor.com/wp-content/uploads/google-gmail-logo.png"
-            alt=""
-          />
-        </button>
+          />{" "}
+          <h1>FaceBook Room Clone Messenger</h1>
+          <SignOut />
+        </header>
+        <div className="app__landing">
+          <div className="wallpaper">
+            <img src={wallpaper} alt="" />
+          </div>
+          <div className="app__signInform">
+            <button className="app__SignInBtnFace" onClick={signInWithFaceBook}>
+              {" "}
+              <h3> Log in with FaceBook</h3>
+              <img
+                src="https://w7.pngwing.com/pngs/933/615/png-transparent-social-media-facebook-computer-icons-logo-facebook-blue-text-rectangle.png"
+                alt=""
+              />
+            </button>
+            <button className="app__SignInBtn" onClick={signInWithGoogle}>
+              {" "}
+              <h3> Sign in with Google</h3>
+              <img
+                src="https://www.schemecolor.com/wp-content/uploads/google-gmail-logo.png"
+                alt=""
+              />
+            </button>
+            <p>made by Henry Nguyen</p>
+            <a href="https://www.linkedin.com/in/henryhieutrungnguyenucla">
+              <img
+                src="https://www.iconfinder.com/data/icons/social-messaging-ui-color-shapes-2-free/128/social-linkedin-circle-512.png"
+                alt=""
+                width="50px"
+                height="50px"
+              />
+            </a>
+          </div>
+        </div>
       </div>
-      <p> Term and conditions</p>
-    </div>
+    </>
   );
 }
 function SignOut() {
@@ -101,12 +117,12 @@ function Chatroom() {
   //   setUsername(prompt("please enter your name"));
   // }, []); // conditions
 
-  const sendMessage = (event) => {
+  const sendMessage = async (event) => {
     // all the logic to send the code here
     event.preventDefault();
     const { uid, photoURL } = auth.currentUser;
 
-    db.collection("messages").add({
+    await  db.collection("messages").add({
       message: input,
       // username: username,
       createAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -116,93 +132,107 @@ function Chatroom() {
 
     // setMessages([...messages, {username:username, text:input}]);
     setInput("");
-    dummy.current.scrollIntoView({ behavior: "smooth" });
+    
+    dummy.current.scrollIntoView({ behavior: "smooth", block: "end" });
   };
   console.log();
   return (
     <div className="app">
-      <header className="app__header">
-        <img 
-         className="app__logo"
-          src="https://facebookbrand.com/wp-content/uploads/2019/10/Messenger_Logo_Color_RGB.png?w=100&h=100"
-          alt=""
-        />{" "}
-        <h1>FaceBook Clone Messenger</h1>
-        <SignOut />
-      </header>
+      <div className="app__section1">
+        <header className="app__header">
+          <img
+            className="app__logo"
+            src="https://facebookbrand.com/wp-content/uploads/2019/10/Messenger_Logo_Color_RGB.png?w=100&h=100"
+            alt=""
+          />{" "}
+          <h1>FaceBook Room Clone Messenger</h1>
+          <SignOut />
+        </header>
+      </div>
       {/* <h2>Welcome {username}</h2> */}
-      <form className="app__form">
-        <FormControl className="app__formControl">
-          {/* <InputLabel>Enter a message</InputLabel> */}
-          <Input
-            className="app__formInput"
-            placeholder="Enter your message"
-            value={input}
-            onChange={(event) => setInput(event.target.value)}
-          />
-          <IconButton
-            className="app__iconButton"
-            disabled={!input}
-            variant="contained"
-            color="primary"
-            type="submit"
-            onClick={sendMessage}
-          >
-            {" "}
-            <SendIcon />
-          </IconButton>
-        </FormControl>
-        {/* button */}
-      </form>
 
       {/* message themselves */}
 
       <FlipMove>
-        <div className="app__Message">
-          {messages.map(({ id, message }) => (
-            <Message
-              key={id}
-              // username={username}
-              message={message}
-            />
-          ))}
-          <span ref={dummy}></span>
+        <div className="app__section2">
+          <main>
+            {messages.map(({ id, message }) => (
+              <Message
+                key={id}
+                // username={username}
+                message={message}
+              />
+            ))}{" "}
+            <span ref={dummy}></span>
+          </main>
         </div>
       </FlipMove>
+
+      <div className="app__section3">
+        <form className="app__form">
+          <FormControl className="app__formControl">
+            {/* <InputLabel>Enter a message</InputLabel> */}
+            <Input
+              className="app__formInput"
+              placeholder="Enter your message"
+              value={input}
+              onChange={(event) => setInput(event.target.value)}
+            />
+            <IconButton
+              className="app__iconButton"
+              disabled={!input}
+              variant="contained"
+              color="primary"
+              type="submit"
+              onClick={sendMessage}
+            >
+              {" "}
+              <SendIcon />
+            </IconButton>
+          </FormControl>
+          {/* button */}
+        </form>
+      </div>
     </div>
   );
 }
 function App() {
   const [user] = useAuthState(auth);
   return (
-    <div className="App">
+    <div className="">
       <section>{user ? <Chatroom /> : <SignIn />}</section>
     </div>
   );
 }
-const Message = forwardRef(({ uid, photoURL,message }, ref) => {
+const Message = forwardRef((props, ref) => {
   // check userfname
+  const {uid, photoURL, message, createAt } = props.message;
   const isUser = uid === auth.currentUser.uid;
+  console.log(uid);
   return (
     <div ref={ref} className={`message ${isUser && "message__user"}`}>
-      <div className="message__display">
-        <img
-          className="message__avatar"
-          src={
-            !isUser && ` ${photoURL || "https://i.stack.imgur.com/l60Hf.png"}: `
-          }
-          alt="avatar"
-        />
-        <Card className={isUser ? "message__userCard" : "message__guestCard"}>
-          <CardContent>
-            <Typography color="white" variant="h5" component="h2">
-              {message.message}
-            </Typography>
-          </CardContent>
-        </Card>
+      <div className={`message__display ${isUser && "message__displayUser"}`}>
+        <div>
+          <img
+            className="message__avatar"
+            src={photoURL}
+            alt="avatar"
+            width="40px"
+            height="40px"
+          />
+        </div>
+        <div>
+          <Card className={isUser ? "message__userCard" : "message__guestCard"}>
+            <CardContent>
+              <Typography color="white" variant="h5" component="h2">
+                {message}
+              </Typography>
+            </CardContent>
+          </Card>
+        </div>
       </div>
       <div className={isUser ? "message__timeInfo" : "message__timeInfo"}>
-        <small> {moment.unix(message.createAt).format("MMMM Do, h:mma")}</small>
+        <small> {moment.unix(createAt).format("MMMM Do, h:mma")}</small>
       </div>
     </div>
   );
